@@ -1,0 +1,118 @@
+#wrap {
+  width: 100vw;
+  /* height: 100vh; */
+}
+
+#nameBar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #ccc;
+  min-width: 500px;
+  width: 500px;
+  height: 80px;
+  margin: 0 auto;
+  margin-top: 50px;
+}
+
+#imgs-wrap {
+  display: flex;
+  border: 1px solid #ccc;
+  width: 1200px;
+  height: 600px;
+  justify-content: space-around;
+  align-items: center;
+  min-width: 700px;
+  min-height: 300px;
+  margin: 30px auto 0 auto;
+  margin-top: 30px;
+  transition: all 0.3s;
+}
+#imgs-wrap .cardBox {
+  position: relative;
+  width: 250px;
+  height: 250px;
+  display: flex;
+  transform-style: preserve-3d;
+  transition: all 0.3s linear;
+  -webkit-animation: fadein 1s;
+}
+@-webkit-keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+#imgs-wrap .cardBox .face {
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  background-size: cover;
+  transition: all 0.3s linear;
+}
+
+#imgs-wrap .cardBox .front {
+  background-color: #ccc;
+  transform: perspective(700px);
+}
+
+#imgs-wrap .cardBox .back {
+  text-align: center;
+  line-height: 250px;
+  background-color: greenyellow;
+  transform: perspective(700px) rotateY(180deg);
+}
+
+#imgs-wrap .cardBox:hover .face.front {
+  transform: perspective(700px) rotateY(30deg);
+  /* transform: perspective(700px) rotateY(180deg); */
+}
+
+#imgs-wrap .cardBox:hover .face.back {
+  transform: perspective(700px) rotateY(210deg);
+  /* transform: perspective(700px) rotateY(360deg); */
+}
+
+#footBar {
+  position: fixed;
+  bottom: 0;
+  z-index: 8888;
+  width: 100%;
+  height: 40px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  transition: all ease 0.5s;
+}
+
+#footBar #footbarToggle {
+  position: absolute;
+  z-index: 9999;
+  top: 10px;
+  left: 50%;
+  font-size: 24px;
+  transition: all ease 0.2s;
+}
+
+#footBar #selectSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+#selectCardBackground {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  /* z-index: -9999; */
+  -webkit-animation: fadein 1s;
+}

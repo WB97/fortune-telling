@@ -1,0 +1,45 @@
+#imgs-wrap .cardBox .flipped {
+  position: absolute;
+}
+
+#selectCard {
+  width: 400px;
+  height: 400px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  top: calc(50% - 200px);
+  left: calc(50% - 200px);
+  z-index: 9999;
+  transform-style: preserve-3d;
+  -webkit-animation: selectFadein 2s;
+}
+@-webkit-keyframes selectFadein {
+  0% {
+    transform: rotateY(180deg);
+  }
+  75% {
+    transform: rotateY(180deg);
+  }
+  100% {
+  }
+}
+
+#selectCard .newCard {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background-size: cover;
+  transform-style: preserve-3d;
+}
+
+#selectCard .selectFront {
+  backface-visibility: hidden;
+  transform: perspective(700px) rotateY(180deg);
+}
+
+#selectCard .selectBack {
+  background: greenyellow;
+  backface-visibility: hidden;
+  transform: perspective(700px) rotateY(360deg);
+}
