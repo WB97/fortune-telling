@@ -11,6 +11,7 @@ const card2Back = document.getElementById("card2Back");
 const card3Back = document.getElementById("card3Back");
 const card4Back = document.getElementById("card4Back");
 const selectCardBackground = document.getElementById("selectCardBackground");
+const backButton = document.getElementById("backButton");
 
 const handleFootBarToggle = (e) => {
   if (footBar.className) {
@@ -53,15 +54,15 @@ const handleClickCard = (e) => {
   selectedCard.childNodes[0].className = "newCard selectFront";
   selectedCard.childNodes[1].className = "newCard selectBack";
   selectCardBackground.style.display = "block";
-  selectCardBackground.style.background = "rgba(0, 0, 0, 0.5)";
+  selectCardBackground.style.background = "rgba(0, 0, 0, 0.8)";
   selectCardBackground.appendChild(selectedCard);
   target.remove();
 };
 
 const handleHiddenBackground = (e) => {
-  const target = e.currentTarget.childNodes;
+  const target = e.currentTarget.parentElement;
   selectCardBackground.style.display = "none";
-  target[0].remove();
+  target.removeChild(target.lastChild);
 };
 
 for (const target of cardBox) {
@@ -69,4 +70,4 @@ for (const target of cardBox) {
 }
 footbarToggle.addEventListener("click", handleFootBarToggle);
 window.addEventListener("load", handleImgSet);
-selectCardBackground.addEventListener("click", handleHiddenBackground);
+backButton.addEventListener("click", handleHiddenBackground);
