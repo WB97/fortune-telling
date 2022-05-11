@@ -12,7 +12,13 @@
   </head>
   <body>
     <div id="wrap">
-      <div id="nameBar">nameBar</div>
+      <div id="nameBar">
+        <form id="loginForm">
+          <input type="text" id="FormInput" />
+          <input type="submit" value="OK" />
+        </form>
+        <span id="nameBox" class="hidden"></span>
+      </div>
       <div id="imgs-wrap">
         <div class="cardBox">
           <div id="card1" class="face front"></div>
@@ -34,7 +40,7 @@
     </div>
     <div id="footBar" class="hide">
       <i class="fa-solid fa-angles-up" id="footbarToggle"></i>
-      <div id="selectSection"></div>
+      <div id="myCards"></div>
     </div>
     <div id="selectCardBackground">
       <i class="fa-regular fa-circle-check" id="backButton"></i>

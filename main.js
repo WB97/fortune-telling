@@ -1,3 +1,10 @@
+const imgs = [
+  { id: "guri", src: "./img1.jpg", text: "It's img1" },
+  { id: "man", src: "./img2.jpg", text: "It's img2" },
+  { id: "siba", src: "./img3.jpg", text: "It's img3" },
+  { id: "zoro", src: "./img4.jpg", text: "It's img4" },
+];
+
 const imgsWrap = document.getElementById("imgs-wrap");
 const footBar = document.getElementById("footBar");
 const footbarToggle = document.getElementById("footbarToggle");
@@ -26,12 +33,6 @@ const handleFootBarToggle = (e) => {
 };
 
 const handleImgSet = () => {
-  imgs = [
-    { src: "img1.jpg", text: "It's Img1" },
-    { src: "img2.jpg", text: "It's Img2" },
-    { src: "img3.jpg", text: "It's Img3" },
-    { src: "img4.jpg", text: "It's Img4" },
-  ];
   imgs.sort(() => Math.random() - 0.5);
   card1.style.backgroundImage = `url(${imgs[0].src})`;
   card2.style.backgroundImage = `url(${imgs[1].src})`;
@@ -71,3 +72,39 @@ for (const target of cardBox) {
 footbarToggle.addEventListener("click", handleFootBarToggle);
 window.addEventListener("load", handleImgSet);
 backButton.addEventListener("click", handleHiddenBackground);
+
+//localStorage section
+
+const loginForm = document.getElementById("loginForm");
+const loginInput = document.getElementById("FormInput");
+const nameBox = document.getElementById("nameBox");
+
+const nameKey = "userName";
+const userName = localStorage.getItem(nameKey);
+
+const showNameBox = (name) => {
+  loginForm.remove();
+  nameBox.classList.remove("hidden");
+  nameBox.innerText = `Hello ${name}`;
+};
+
+const handleSubmit = (e) => {
+  const setName = loginInput.value;
+  e.preventDefault();
+  if (setName == "") {
+    alert("Name is required");
+    loginInput.focus();
+    return;
+  } else {
+    localStorage.setItem(nameKey, setName);
+    loginInput.value = "";
+    loginForm.remove();
+    showNameBox(setName);
+  }
+};
+
+if (userName == null) {
+  loginForm.addEventListener("submit", handleSubmit);
+} else {
+  showNameBox(userName);
+}
