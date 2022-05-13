@@ -6,6 +6,7 @@ const imgs = [
 ];
 
 const imgsWrap = document.getElementById("imgs-wrap");
+const timeText = document.getElementById("timeText");
 const footBar = document.getElementById("footBar");
 const footbarToggle = document.getElementById("footbarToggle");
 const cardBox = document.querySelectorAll(".cardBox");
@@ -19,14 +20,19 @@ const card3Back = document.getElementById("card3Back");
 const card4Back = document.getElementById("card4Back");
 const selectCardBackground = document.getElementById("selectCardBackground");
 const backButton = document.getElementById("backButton");
+const myCard = document.getElementById("myCard");
 
 const handleFootBarToggle = (e) => {
   if (footBar.className) {
-    footBar.classList.remove("hide");
-    footBar.style.height = "200px";
+    //보이게 하기
+    footBar.className = "";
+    myCard.className = "";
+    footBar.style.height = "250px";
     footbarToggle.style.transform = "rotate(180deg)";
   } else {
+    //안보이게 하기
     footBar.className = "hide";
+    myCard.className = "myCardHidden";
     footBar.style.height = "40px";
     footbarToggle.style.transform = "rotate(0deg)";
   }
@@ -38,10 +44,20 @@ const handleImgSet = () => {
   card2.style.backgroundImage = `url(${imgs[1].src})`;
   card3.style.backgroundImage = `url(${imgs[2].src})`;
   card4.style.backgroundImage = `url(${imgs[3].src})`;
+
+  card1.parentElement.id = imgs[0].id;
+  card2.parentElement.id = imgs[1].id;
+  card3.parentElement.id = imgs[2].id;
+  card4.parentElement.id = imgs[3].id;
+
   card1Back.innerText = imgs[0].text;
   card2Back.innerText = imgs[1].text;
   card3Back.innerText = imgs[2].text;
   card4Back.innerText = imgs[3].text;
+};
+
+const showUnderMyCard = (newCard) => {
+  myCard.style.backgroundImage = `url(${newCard.src})`;
 };
 
 const handleClickCard = (e) => {
@@ -57,6 +73,19 @@ const handleClickCard = (e) => {
   selectCardBackground.style.display = "block";
   selectCardBackground.style.background = "rgba(0, 0, 0, 0.8)";
   selectCardBackground.appendChild(selectedCard);
+  if (userName) {
+    for (i = 0; i < imgs.length; i++) {
+      if (target.id == imgs[i].id) {
+        const newCard = {
+          id: imgs[i].id,
+          src: imgs[i].src,
+          text: imgs[i].text,
+        };
+        localStorage.setItem(cardKey, JSON.stringify(newCard));
+        showUnderMyCard(newCard);
+      }
+    }
+  }
   target.remove();
 };
 
@@ -64,6 +93,13 @@ const handleHiddenBackground = (e) => {
   const target = e.currentTarget.parentElement;
   selectCardBackground.style.display = "none";
   target.removeChild(target.lastChild);
+  window.location.reload();
+};
+
+const handleClickMyCard = (e) => {
+  if (!cardSession) {
+    return;
+  }
 };
 
 for (const target of cardBox) {
@@ -72,6 +108,7 @@ for (const target of cardBox) {
 footbarToggle.addEventListener("click", handleFootBarToggle);
 window.addEventListener("load", handleImgSet);
 backButton.addEventListener("click", handleHiddenBackground);
+myCard.addEventListener("click", handleClickMyCard);
 
 //localStorage section
 
@@ -80,7 +117,9 @@ const loginInput = document.getElementById("FormInput");
 const nameBox = document.getElementById("nameBox");
 
 const nameKey = "userName";
+const cardKey = "card";
 const userName = localStorage.getItem(nameKey);
+const cardSession = localStorage.getItem(cardKey);
 
 const showNameBox = (name) => {
   loginForm.remove();
@@ -90,16 +129,15 @@ const showNameBox = (name) => {
 
 const handleSubmit = (e) => {
   const setName = loginInput.value;
-  e.preventDefault();
   if (setName == "") {
+    e.preventDefault();
     alert("Name is required");
     loginInput.focus();
     return;
   } else {
     localStorage.setItem(nameKey, setName);
     loginInput.value = "";
-    loginForm.remove();
-    showNameBox(setName);
+    window.location.reload();
   }
 };
 
@@ -107,4 +145,11 @@ if (userName == null) {
   loginForm.addEventListener("submit", handleSubmit);
 } else {
   showNameBox(userName);
+  if (cardSession) {
+    imgsWrap.id = "";
+    imgsWrap.classList.add("hidden");
+    timeText.classList.remove("hidden");
+    timeText.classList.add("hidden2");
+  }
+  showUnderMyCard(JSON.parse(cardSession));
 }

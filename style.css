@@ -13,6 +13,7 @@
   height: 80px;
   margin: 0 auto;
   margin-top: 50px;
+  -webkit-animation: fade-in 1s;
 }
 
 #imgs-wrap {
@@ -27,6 +28,7 @@
   margin: 30px auto 0 auto;
   margin-top: 30px;
   transition: all 0.3s;
+  -webkit-animation: fade-in 1s;
 }
 #imgs-wrap .cardBox {
   position: relative;
@@ -35,15 +37,6 @@
   display: flex;
   transform-style: preserve-3d;
   transition: all 0.3s linear;
-  -webkit-animation: fadein 0.5s;
-}
-@-webkit-keyframes fadein {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
 }
 
 #imgs-wrap .cardBox .face {
@@ -78,6 +71,16 @@
   /* transform: perspective(700px) rotateY(360deg); */
 }
 
+#timeText {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: rgb(170, 125, 125);
+  top: calc(50% - 150px);
+  left: calc(50% - 150px);
+  -webkit-animation: fade-in 1s;
+}
+
 #footBar {
   position: fixed;
   bottom: 0;
@@ -109,6 +112,21 @@
   height: 100%;
 }
 
+#footBar #myCard {
+  position: absolute;
+  top: calc(25%);
+  left: calc(50% - 75px);
+  width: 150px;
+  height: 150px;
+  border: 1px solid #fff;
+  background-size: cover;
+  transition: all 0.3s;
+}
+
+#footBar .myCardHidden {
+  opacity: 0;
+}
+
 #selectCardBackground {
   display: none;
   position: absolute;
@@ -117,9 +135,31 @@
   width: 100vw;
   height: 100vh;
   /* z-index: -9999; */
-  -webkit-animation: fadein 1s;
+  -webkit-animation: fade-in 1s;
 }
 
 .hidden {
   display: none;
+}
+
+.hidden2 {
+  -webkit-animation: fade-out 1s;
+}
+
+@-webkit-keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
