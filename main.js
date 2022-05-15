@@ -98,14 +98,16 @@ const handleClickCard = (e) => {
   targetCard.remove();
 };
 
-const handleHiddenBackground = () => {
+const handleHiddenBackground = (check) => {
   const removeCard = document.getElementById("selectCard");
   if (!removeCard) {
     return;
   }
   selectCardBackground.removeChild(removeCard);
   selectCardBackground.style.display = "none";
-  window.location.reload();
+  if (check != 1) {
+    window.location.reload();
+  }
 };
 
 const handleClickMyCard = (e) => {
@@ -113,7 +115,8 @@ const handleClickMyCard = (e) => {
     return;
   }
   const targetCard = e.currentTarget;
-  handleHiddenBackground();
+  const check = 1;
+  handleHiddenBackground(check);
   setTimeout(() => {
     showCard(targetCard);
   }, 1);
