@@ -112,7 +112,7 @@
   height: 100%;
 }
 
-#footBar #myCard {
+#footBar .myCard {
   position: absolute;
   top: calc(25%);
   left: calc(50% - 75px);

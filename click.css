@@ -18,6 +18,7 @@
   height: 400px;
   background-size: cover;
   transform-style: preserve-3d;
+  -webkit-animation: fade-in 1s;
 }
 
 #selectCard .selectFront {
@@ -62,4 +63,13 @@
   left: calc(20% - 50px);
   color: white;
   font-size: 100px;
+}
+
+@-webkit-keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

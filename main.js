@@ -20,19 +20,19 @@ const card3Back = document.getElementById("card3Back");
 const card4Back = document.getElementById("card4Back");
 const selectCardBackground = document.getElementById("selectCardBackground");
 const backButton = document.getElementById("backButton");
-const myCard = document.getElementById("myCard");
+const myCard = document.querySelector(".myCard");
 
 const handleFootBarToggle = (e) => {
   if (footBar.className) {
     //보이게 하기
     footBar.className = "";
-    myCard.className = "";
+    myCard.classList.remove("myCardHidden");
     footBar.style.height = "250px";
     footbarToggle.style.transform = "rotate(180deg)";
   } else {
     //안보이게 하기
     footBar.className = "hide";
-    myCard.className = "myCardHidden";
+    myCard.classList.add("myCardHidden");
     footBar.style.height = "40px";
     footbarToggle.style.transform = "rotate(0deg)";
   }
@@ -56,43 +56,55 @@ const handleImgSet = () => {
   card4Back.innerText = imgs[3].text;
 };
 
-const showUnderMyCard = (newCard) => {
+const setMyCard = (newCard) => {
   myCard.style.backgroundImage = `url(${newCard.src})`;
+  myCard.id = newCard.id;
+};
+
+const showCard = (targetCard) => {
+  const selectedCard = document.createElement("div");
+  const front = document.createElement("div");
+  const back = document.createElement("div");
+  selectedCard.id = "selectCard";
+  front.className = "newCard selectFront";
+  back.className = "newCard selectBack";
+  selectedCard.appendChild(front);
+  selectedCard.appendChild(back);
+  for (i = 0; i < imgs.length; i++) {
+    if (targetCard.id == imgs[i].id) {
+      const newCard = {
+        id: imgs[i].id,
+        src: imgs[i].src,
+        text: imgs[i].text,
+      };
+      if (userName && !cardSession) {
+        // 유저 세션이 있다면 카드 저장하기
+        localStorage.setItem(cardKey, JSON.stringify(newCard));
+        setMyCard(newCard);
+      }
+      front.style.backgroundImage = `url(${newCard.src})`;
+      back.innerText = newCard.text;
+      selectCardBackground.style.display = "block";
+      selectCardBackground.style.background = "rgba(0, 0, 0, 0.8)";
+      selectCardBackground.appendChild(selectedCard);
+      return;
+    }
+  }
 };
 
 const handleClickCard = (e) => {
-  const target = e.currentTarget;
-  const front = target.querySelector(".front");
-  const back = target.querySelector(".back");
-  const selectedCard = document.createElement("div");
-  selectedCard.appendChild(front);
-  selectedCard.appendChild(back);
-  selectedCard.id = "selectCard";
-  selectedCard.childNodes[0].className = "newCard selectFront";
-  selectedCard.childNodes[1].className = "newCard selectBack";
-  selectCardBackground.style.display = "block";
-  selectCardBackground.style.background = "rgba(0, 0, 0, 0.8)";
-  selectCardBackground.appendChild(selectedCard);
-  if (userName) {
-    for (i = 0; i < imgs.length; i++) {
-      if (target.id == imgs[i].id) {
-        const newCard = {
-          id: imgs[i].id,
-          src: imgs[i].src,
-          text: imgs[i].text,
-        };
-        localStorage.setItem(cardKey, JSON.stringify(newCard));
-        showUnderMyCard(newCard);
-      }
-    }
-  }
-  target.remove();
+  const targetCard = e.currentTarget;
+  showCard(targetCard); // 선택 카드 보여주기, 카드 저장하기
+  targetCard.remove();
 };
 
-const handleHiddenBackground = (e) => {
-  const target = e.currentTarget.parentElement;
+const handleHiddenBackground = () => {
+  const removeCard = document.getElementById("selectCard");
+  if (!removeCard) {
+    return;
+  }
+  selectCardBackground.removeChild(removeCard);
   selectCardBackground.style.display = "none";
-  target.removeChild(target.lastChild);
   window.location.reload();
 };
 
@@ -100,6 +112,11 @@ const handleClickMyCard = (e) => {
   if (!cardSession) {
     return;
   }
+  const targetCard = e.currentTarget;
+  handleHiddenBackground();
+  setTimeout(() => {
+    showCard(targetCard);
+  }, 1);
 };
 
 for (const target of cardBox) {
@@ -142,14 +159,17 @@ const handleSubmit = (e) => {
 };
 
 if (userName == null) {
+  // 유저세션이 비어있다면 로그인 폼 보여주기
   loginForm.addEventListener("submit", handleSubmit);
 } else {
+  // 유저 세션이 있다면 로그인 폼은 가리고 인사메세지 띄우기
   showNameBox(userName);
   if (cardSession) {
+    // 카드가 저장되어 있다면 중앙 카드선택창 가리고 시간 창 띄우기, 하단에 내 카드 이미지 띄우기
     imgsWrap.id = "";
     imgsWrap.classList.add("hidden");
     timeText.classList.remove("hidden");
     timeText.classList.add("hidden2");
+    setMyCard(JSON.parse(cardSession));
   }
-  showUnderMyCard(JSON.parse(cardSession));
 }
