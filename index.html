@@ -14,8 +14,8 @@
     <div id="wrap">
       <div id="nameBar">
         <form id="loginForm">
-          <input type="text" id="FormInput" />
-          <input type="submit" value="OK" />
+          <input type="text" id="FormInput" class="loginInput" />
+          <input type="submit" value="OK" class="loginBtn" />
         </form>
         <span id="nameBox" class="hidden"></span>
       </div>
@@ -37,7 +37,10 @@
           <div id="card4Back" class="face back"></div>
         </div>
       </div>
-      <div id="timeText" class="hidden"></div>
+      <div id="timeBox" class="timeBox hidden">
+        <span id="timeText"></span>
+        <span class="message">Can do it again after this time</span>
+      </div>
     </div>
     <div id="footBar" class="hide">
       <i class="fa-solid fa-angles-up" id="footbarToggle"></i>

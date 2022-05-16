@@ -6,7 +6,7 @@ const imgs = [
 ];
 
 const imgsWrap = document.getElementById("imgs-wrap");
-const timeText = document.getElementById("timeText");
+const timeBox = document.getElementById("timeBox");
 const footBar = document.getElementById("footBar");
 const footbarToggle = document.getElementById("footbarToggle");
 const cardBox = document.querySelectorAll(".cardBox");
@@ -21,6 +21,7 @@ const card4Back = document.getElementById("card4Back");
 const selectCardBackground = document.getElementById("selectCardBackground");
 const backButton = document.getElementById("backButton");
 const myCard = document.querySelector(".myCard");
+const timeText = document.getElementById("timeText");
 
 const handleFootBarToggle = (e) => {
   if (footBar.className) {
@@ -95,6 +96,7 @@ const showCard = (targetCard) => {
 const handleClickCard = (e) => {
   const targetCard = e.currentTarget;
   showCard(targetCard); // 선택 카드 보여주기, 카드 저장하기
+  setTime();
   targetCard.remove();
 };
 
@@ -122,6 +124,25 @@ const handleClickMyCard = (e) => {
   }, 1);
 };
 
+const showTimer = () => {
+  const time = new Date();
+  const second = String(59 - time.getSeconds()).padStart(2, "0");
+  const minute = String(59 - time.getMinutes()).padStart(2, "0");
+  const hour = String(23 - time.getHours()).padStart(2, "0");
+  timeText.innerText = `${hour} : ${minute} : ${second}`;
+};
+
+const getTime = () => {
+  showTimer();
+  setInterval(showTimer, 1000);
+};
+
+const setTime = () => {
+  const time = new Date();
+  const saveTime = time.getDate() + 1;
+  localStorage.setItem("nextDay", saveTime);
+};
+
 for (const target of cardBox) {
   target.addEventListener("click", handleClickCard);
 }
@@ -138,13 +159,15 @@ const nameBox = document.getElementById("nameBox");
 
 const nameKey = "userName";
 const cardKey = "card";
+const dayKey = "nextDay";
 const userName = localStorage.getItem(nameKey);
 const cardSession = localStorage.getItem(cardKey);
+const daySession = localStorage.getItem(dayKey);
 
 const showNameBox = (name) => {
   loginForm.remove();
   nameBox.classList.remove("hidden");
-  nameBox.innerText = `Hello ${name}`;
+  nameBox.innerText = `Have a good day ${name}!`;
 };
 
 const handleSubmit = (e) => {
@@ -167,12 +190,20 @@ if (userName == null) {
 } else {
   // 유저 세션이 있다면 로그인 폼은 가리고 인사메세지 띄우기
   showNameBox(userName);
+  const compareTime = new Date();
+  const compareDay = compareTime.getDate();
+  if (daySession && compareDay >= daySession) {
+    // 현재 날짜와 세션에 저장된 다음날짜를 비교해서 날짜가 지났으면 유저네임을 제외한 세션 초기화
+    localStorage.removeItem(cardKey);
+    localStorage.removeItem(dayKey);
+    window.location.reload();
+  }
   if (cardSession) {
-    // 카드가 저장되어 있다면 중앙 카드선택창 가리고 시간 창 띄우기, 하단에 내 카드 이미지 띄우기
+    // 카드가 저장되어 있다면 중앙 카드선택창 가리고 타이머 띄우기, 하단에 내 카드 이미지 띄우기
     imgsWrap.id = "";
     imgsWrap.classList.add("hidden");
-    timeText.classList.remove("hidden");
-    timeText.classList.add("hidden2");
+    timeBox.classList.remove("hidden");
     setMyCard(JSON.parse(cardSession));
+    getTime();
   }
 }
