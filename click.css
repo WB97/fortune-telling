@@ -2,35 +2,39 @@
   position: absolute;
 }
 
-#selectCard {
+.selectCard {
   width: 400px;
-  height: 400px;
+  height: 600px;
   position: absolute;
-  top: calc(50% - 200px);
+  top: calc(50% - 300px);
   left: calc(50% - 200px);
   z-index: 7777;
   transform-style: preserve-3d;
 }
 
-#selectCard .newCard {
+.selectCard .newCard {
   position: absolute;
   width: 400px;
-  height: 400px;
-  background-size: cover;
+  height: 600px;
   transform-style: preserve-3d;
+  border: 3px solid #fff;
+  border-radius: 15px;
   -webkit-animation: fade-in 1s;
 }
 
-#selectCard .selectFront {
+.selectCard .selectFront {
   backface-visibility: hidden;
+  background-size: cover;
   transform: perspective(700px) rotateY(180deg);
   -webkit-animation: newCardAni1 2s;
 }
 
-#selectCard .selectBack {
-  background: greenyellow;
+.selectCard .selectBack {
   backface-visibility: hidden;
   transform: perspective(700px);
+  background-size: cover;
+
+  text-align: center;
   -webkit-animation: newCardAni2 2s;
 }
 

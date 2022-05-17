@@ -1,8 +1,39 @@
 const imgs = [
-  { id: "guri", src: "./img1.jpg", text: "It's img1" },
-  { id: "man", src: "./img2.jpg", text: "It's img2" },
-  { id: "siba", src: "./img3.jpg", text: "It's img3" },
-  { id: "zoro", src: "./img4.jpg", text: "It's img4" },
+  {
+    id: "20segi",
+    src: "./imgs/img1.png",
+    text: "어린 시절을 그리워하는 왁두",
+  },
+  {
+    id: "gubook",
+    src: "./imgs/img2.png",
+    text: "눈에 뵈는게 없는 왁두",
+  },
+  {
+    id: "moonKnight",
+    src: "./imgs/img3.png",
+    text: "달빛의 힘을 받은 왁두",
+  },
+  {
+    id: "zedoo",
+    src: "./imgs/img4.png",
+    text: "밝?",
+  },
+  {
+    id: "mansuk",
+    src: "./imgs/img5.png",
+    text: "통수",
+  },
+  {
+    id: "santa",
+    src: "./imgs/img6.png",
+    text: "크리스마스",
+  },
+  {
+    id: "pa",
+    src: "./imgs/img7.png",
+    text: "파하하하",
+  },
 ];
 
 const imgsWrap = document.getElementById("imgs-wrap");
@@ -41,20 +72,26 @@ const handleFootBarToggle = (e) => {
 
 const handleImgSet = () => {
   imgs.sort(() => Math.random() - 0.5);
-  card1.style.backgroundImage = `url(${imgs[0].src})`;
-  card2.style.backgroundImage = `url(${imgs[1].src})`;
-  card3.style.backgroundImage = `url(${imgs[2].src})`;
-  card4.style.backgroundImage = `url(${imgs[3].src})`;
 
   card1.parentElement.id = imgs[0].id;
   card2.parentElement.id = imgs[1].id;
   card3.parentElement.id = imgs[2].id;
   card4.parentElement.id = imgs[3].id;
 
-  card1Back.innerText = imgs[0].text;
-  card2Back.innerText = imgs[1].text;
-  card3Back.innerText = imgs[2].text;
-  card4Back.innerText = imgs[3].text;
+  card1Back.style.backgroundImage = `url(${imgs[0].src})`;
+  card2Back.style.backgroundImage = `url(${imgs[1].src})`;
+  card3Back.style.backgroundImage = `url(${imgs[2].src})`;
+  card4Back.style.backgroundImage = `url(${imgs[3].src})`;
+
+  card1.style.backgroundImage = `url(./imgs/wak.png)`;
+  card2.style.backgroundImage = `url(./imgs/wak.png)`;
+  card3.style.backgroundImage = `url(./imgs/wak.png)`;
+  card4.style.backgroundImage = `url(./imgs/wak.png)`;
+
+  card1.innerText = imgs[0].text;
+  card2.innerText = imgs[1].text;
+  card3.innerText = imgs[2].text;
+  card4.innerText = imgs[3].text;
 };
 
 const setMyCard = (newCard) => {
@@ -66,7 +103,7 @@ const showCard = (targetCard) => {
   const selectedCard = document.createElement("div");
   const front = document.createElement("div");
   const back = document.createElement("div");
-  selectedCard.id = "selectCard";
+  selectedCard.className = "selectCard";
   front.className = "newCard selectFront";
   back.className = "newCard selectBack";
   selectedCard.appendChild(front);
@@ -83,8 +120,8 @@ const showCard = (targetCard) => {
         localStorage.setItem(cardKey, JSON.stringify(newCard));
         setMyCard(newCard);
       }
-      front.style.backgroundImage = `url(${newCard.src})`;
-      back.innerText = newCard.text;
+      front.style.backgroundImage = `url(./imgs/wak.png)`;
+      back.style.backgroundImage = `url(${newCard.src})`;
       selectCardBackground.style.display = "block";
       selectCardBackground.style.background = "rgba(0, 0, 0, 0.8)";
       selectCardBackground.appendChild(selectedCard);
@@ -94,6 +131,10 @@ const showCard = (targetCard) => {
 };
 
 const handleClickCard = (e) => {
+  if (!userName) {
+    alert("이름을 입력해주세요.");
+    return;
+  }
   const targetCard = e.currentTarget;
   showCard(targetCard); // 선택 카드 보여주기, 카드 저장하기
   setTime();
@@ -101,7 +142,7 @@ const handleClickCard = (e) => {
 };
 
 const handleHiddenBackground = (check) => {
-  const removeCard = document.getElementById("selectCard");
+  const removeCard = document.querySelector(".selectCard");
   if (!removeCard) {
     return;
   }
